@@ -93,7 +93,7 @@ public class AdminDao {
 		      
 		   ResultSet rs = null;
 		try {
-			rs = statement.executeQuery("select count(*), adminid, adminpassword from admin where adminid="+adminId+" and adminpassword="+adminPassword);
+			rs = statement.executeQuery("select count(*), adminid, adminpassword from admin where adminid='"+adminId+"' and adminpassword='"+adminPassword+"'");
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

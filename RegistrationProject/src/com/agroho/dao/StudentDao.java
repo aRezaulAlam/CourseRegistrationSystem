@@ -65,7 +65,7 @@ public class StudentDao {
 
 		      
 		      
-		   ResultSet rs = statement.executeQuery("select studentid, password from student where studentid="+studentId+" and password="+studentPassword);
+		   ResultSet rs = statement.executeQuery("select studentid, password from student where studentid='"+studentId+"' and password='"+studentPassword+"'");
 		      
 		   //   System.out.println(rows+ " rows are effected");
 		

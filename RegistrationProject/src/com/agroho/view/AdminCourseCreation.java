@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -40,6 +42,7 @@ public class AdminCourseCreation extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					setLookAndFeel(Constants.NIMBUS_LF);
 					AdminCourseCreation frame = new AdminCourseCreation();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -54,7 +57,7 @@ public class AdminCourseCreation extends JFrame {
 	 */
 	public AdminCourseCreation() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 807, 660);
+		setBounds(100, 100, 873, 709);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -62,51 +65,51 @@ public class AdminCourseCreation extends JFrame {
 		
 		JLabel lblAddCourseRegistration = new JLabel("Add Course  Registration");
 		lblAddCourseRegistration.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblAddCourseRegistration.setBounds(318, 11, 274, 36);
+		lblAddCourseRegistration.setBounds(332, 26, 274, 36);
 		contentPane.add(lblAddCourseRegistration);
 		
 		JLabel lblSelectCourse = new JLabel("Select Course:");
 		lblSelectCourse.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSelectCourse.setBounds(124, 83, 112, 36);
+		lblSelectCourse.setBounds(199, 97, 112, 36);
 		contentPane.add(lblSelectCourse);
 		
 		JLabel lblFaculty = new JLabel("Faculty:");
 		lblFaculty.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblFaculty.setBounds(124, 147, 112, 36);
+		lblFaculty.setBounds(199, 161, 112, 36);
 		contentPane.add(lblFaculty);
 		
 		JLabel lblDescription = new JLabel("Description:");
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDescription.setBounds(124, 215, 112, 36);
+		lblDescription.setBounds(199, 229, 112, 36);
 		contentPane.add(lblDescription);
 		
 		JLabel lblClassRoom = new JLabel("Class Room:");
 		lblClassRoom.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblClassRoom.setBounds(124, 305, 112, 36);
+		lblClassRoom.setBounds(199, 319, 112, 36);
 		contentPane.add(lblClassRoom);
 		
 		JLabel lblTimeTable = new JLabel("Time Table:");
 		lblTimeTable.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTimeTable.setBounds(124, 386, 112, 36);
+		lblTimeTable.setBounds(199, 400, 112, 36);
 		contentPane.add(lblTimeTable);
 		
 		claasRoomTextField = new JTextField();
-		claasRoomTextField.setBounds(253, 315, 295, 29);
+		claasRoomTextField.setBounds(328, 329, 295, 29);
 		contentPane.add(claasRoomTextField);
 		claasRoomTextField.setColumns(10);
 		
 		timetableTextField = new JTextField();
 		timetableTextField.setColumns(10);
-		timetableTextField.setBounds(253, 393, 295, 29);
+		timetableTextField.setBounds(328, 407, 295, 29);
 		contentPane.add(timetableTextField);
 		
 		JTextArea descriptionTextArea = new JTextArea();
 		descriptionTextArea.setLineWrap(true);
-		descriptionTextArea.setBounds(253, 223, 295, 55);
+		descriptionTextArea.setBounds(328, 237, 295, 55);
 		contentPane.add(descriptionTextArea);
 		
 		JComboBox facultyComboBox = new JComboBox();
-		facultyComboBox.setBounds(253, 149, 295, 26);
+		facultyComboBox.setBounds(328, 163, 295, 26);
 		contentPane.add(facultyComboBox);
 		
 		CourseController courseController = new CourseController();
@@ -116,7 +119,7 @@ public class AdminCourseCreation extends JFrame {
 		JComboBox courseComboBox = new JComboBox();
 		
 		
-		courseComboBox.setBounds(253, 85, 295, 26);
+		courseComboBox.setBounds(328, 99, 295, 26);
 		for (int i = 0; i < courseList.size(); i++) {
 			//courses.add(courseList.get(i).getCourseName() +"-"+courseList.get(i).getCourseId());
 			courseComboBox.addItem(courseList.get(i).getCourseName() +"-"+courseList.get(i).getCourseId());
@@ -163,7 +166,22 @@ public class AdminCourseCreation extends JFrame {
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnNewButton.setBounds(295, 470, 216, 36);
+		btnNewButton.setBounds(407, 486, 216, 36);
 		contentPane.add(btnNewButton);
+	}
+	
+	public static void setLookAndFeel(String lf) throws Exception {
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if (lf.equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// If the given lf is not available, you can set the GUI the system
+			// default L&F.
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
 	}
 }

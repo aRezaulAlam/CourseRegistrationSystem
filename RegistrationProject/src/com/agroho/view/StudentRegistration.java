@@ -12,6 +12,8 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 
 import com.agroho.controller.StudentController;
@@ -40,6 +42,7 @@ public class StudentRegistration extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					setLookAndFeel(Constants.NIMBUS_LF);
 					StudentRegistration frame = new StudentRegistration();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -56,7 +59,7 @@ public class StudentRegistration extends JFrame{
 	 */
 	public StudentRegistration() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 830, 689);
+		setBounds(100, 100, 873, 709);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,12 +87,12 @@ public class StudentRegistration extends JFrame{
 		
 		JLabel lblIdCourse = new JLabel("Major");
 		lblIdCourse.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblIdCourse.setBounds(152, 331, 104, 20);
+		lblIdCourse.setBounds(152, 338, 104, 20);
 		contentPane.add(lblIdCourse);
 		
 		JLabel lblMobile = new JLabel("Mobile");
 		lblMobile.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblMobile.setBounds(152, 383, 104, 20);
+		lblMobile.setBounds(152, 401, 104, 20);
 		contentPane.add(lblMobile);
 		
 		idField = new JTextField();
@@ -108,21 +111,21 @@ public class StudentRegistration extends JFrame{
 		
 		courseField = new JTextField();
 		courseField.setColumns(10);
-		courseField.setBounds(368, 328, 206, 30);
+		courseField.setBounds(368, 335, 206, 30);
 		contentPane.add(courseField);
 		
 		mobileField = new JTextField();
 		mobileField.setColumns(10);
-		mobileField.setBounds(368, 380, 206, 30);
+		mobileField.setBounds(368, 398, 206, 30);
 		contentPane.add(mobileField);
 		
 		retypePasswordField_1 = new JPasswordField();
-		retypePasswordField_1.setBounds(368, 268, 206, 34);
+		retypePasswordField_1.setBounds(368, 271, 206, 34);
 		contentPane.add(retypePasswordField_1);
 		
 		JLabel lblRetypePassword = new JLabel("Retype Password");
 		lblRetypePassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblRetypePassword.setBounds(152, 271, 129, 20);
+		lblRetypePassword.setBounds(152, 276, 129, 20);
 		contentPane.add(lblRetypePassword);
 		
 		JButton btnNewButton = new JButton("Register");
@@ -150,11 +153,26 @@ Student student = new Student();
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnNewButton.setBounds(386, 456, 104, 37);
+		btnNewButton.setBounds(387, 480, 104, 37);
 		contentPane.add(btnNewButton);
 		
 		
 		
 		
+	}
+	
+	public static void setLookAndFeel(String lf) throws Exception {
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if (lf.equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// If the given lf is not available, you can set the GUI the system
+			// default L&F.
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
 	}
 }

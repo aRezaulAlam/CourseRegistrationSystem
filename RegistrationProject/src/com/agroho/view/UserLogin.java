@@ -8,6 +8,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.agroho.controller.LoginController;
 import com.agroho.controller.StudentController;
@@ -37,6 +39,7 @@ public class UserLogin {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					setLookAndFeel(Constants.NIMBUS_LF);
 					UserLogin window = new UserLogin();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -78,24 +81,24 @@ public class UserLogin {
 		frame.getContentPane().add(lblPassword);
 		
 		studentUserNameTextField = new JTextField();
-		studentUserNameTextField.setBounds(173, 104, 132, 34);
+		studentUserNameTextField.setBounds(171, 113, 132, 34);
 		frame.getContentPane().add(studentUserNameTextField);
 		studentUserNameTextField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Login");
 		
-		btnNewButton.setBounds(181, 223, 99, 34);
+		btnNewButton.setBounds(181, 226, 99, 34);
 		frame.getContentPane().add(btnNewButton);
 		
 		JLabel lblRegister = new JLabel("Register");
 		
 		lblRegister.setForeground(Color.BLUE);
 		lblRegister.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblRegister.setBounds(307, 227, 61, 24);
+		lblRegister.setBounds(305, 236, 61, 24);
 		frame.getContentPane().add(lblRegister);
 		
 		JComboBox userTypeComboBox = new JComboBox();
-		userTypeComboBox.setBounds(171, 58, 134, 24);
+		userTypeComboBox.setBounds(171, 58, 134, 34);
 		userTypeComboBox.addItem("Student");
 		userTypeComboBox.addItem("Admin");
 		userTypeComboBox.addItem("Faculty");
@@ -108,7 +111,7 @@ public class UserLogin {
 		frame.getContentPane().add(lblUserType);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(171, 158, 134, 34);
+		passwordField.setBounds(172, 172, 134, 34);
 		frame.getContentPane().add(passwordField);
 		
 		btnNewButton.addActionListener(new ActionListener() {
@@ -182,5 +185,20 @@ public class UserLogin {
 				
 			}
 		});
+	}
+	
+	public static void setLookAndFeel(String lf) throws Exception {
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if (lf.equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// If the given lf is not available, you can set the GUI the system
+			// default L&F.
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
 	}
 }

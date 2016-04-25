@@ -17,6 +17,8 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -51,12 +53,15 @@ public class FacultyRegistration extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					setLookAndFeel(Constants.NIMBUS_LF);
 					FacultyRegistration frame = new FacultyRegistration();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
+
+			
 		});
 	}
 
@@ -65,7 +70,7 @@ public class FacultyRegistration extends JFrame {
 	 */
 	public FacultyRegistration() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 693, 590);
+		setBounds(100, 100, 873, 709);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -78,36 +83,36 @@ public class FacultyRegistration extends JFrame {
 		
 		JLabel lblName = new JLabel("Name: ");
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblName.setBounds(103, 78, 92, 32);
+		lblName.setBounds(162, 72, 92, 32);
 		contentPane.add(lblName);
 		
 		JLabel lblId = new JLabel("ID: ");
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblId.setBounds(103, 131, 92, 32);
+		lblId.setBounds(162, 145, 92, 32);
 		contentPane.add(lblId);
 		
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPassword.setBounds(103, 188, 92, 32);
+		lblPassword.setBounds(162, 217, 92, 32);
 		contentPane.add(lblPassword);
 		
 		JLabel lblSkill = new JLabel("Skills: ");
 		lblSkill.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSkill.setBounds(103, 251, 92, 32);
+		lblSkill.setBounds(162, 280, 92, 32);
 		contentPane.add(lblSkill);
 		
 		facultyNameField = new JTextField();
-		facultyNameField.setBounds(217, 86, 229, 24);
+		facultyNameField.setBounds(342, 78, 229, 24);
 		contentPane.add(facultyNameField);
 		facultyNameField.setColumns(10);
 		
 		facultyIdField = new JTextField();
 		facultyIdField.setColumns(10);
-		facultyIdField.setBounds(217, 139, 229, 24);
+		facultyIdField.setBounds(342, 151, 229, 24);
 		contentPane.add(facultyIdField);
 		
 		facultyPasswordField = new JPasswordField();
-		facultyPasswordField.setBounds(217, 196, 229, 24);
+		facultyPasswordField.setBounds(342, 223, 229, 24);
 		contentPane.add(facultyPasswordField);
 		CourseController courseController = new CourseController();
 		ArrayList<Course> courseList = (ArrayList<Course>) courseController.getCourseDetails();
@@ -117,8 +122,12 @@ public class FacultyRegistration extends JFrame {
 		for (int i = 0; i < courseList.size(); i++) {
 			courses.add(courseList.get(i).getCourseName() +"-"+courseList.get(i).getCourseId());
 		}
+
+		javax.swing.JScrollPane list_scroll = new javax.swing.JScrollPane();
+		list_scroll.setBounds(342, 289, 235, 160);
+		contentPane.add(list_scroll);
 		list = new JList(courses.toArray());
-		list.setBounds(217, 255, 190, 50);
+		list_scroll.setViewportView(list);
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		list.setSelectionModel(new DefaultListSelectionModel() {
@@ -132,10 +141,6 @@ public class FacultyRegistration extends JFrame {
 		        }
 		    }
 		});
-
-		javax.swing.JScrollPane list_scroll = new javax.swing.JScrollPane(list);
-		list_scroll.setBounds(217, 255, 235, 160);
-		contentPane.add(list_scroll);
 		
 		JButton registerButton = new JButton("Register");
 		registerButton.addActionListener(new ActionListener() {
@@ -171,7 +176,7 @@ public class FacultyRegistration extends JFrame {
 			}
 		});
 		registerButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		registerButton.setBounds(254, 453, 100, 23);
+		registerButton.setBounds(471, 510, 100, 23);
 		contentPane.add(registerButton);
 		
 		
@@ -179,5 +184,20 @@ public class FacultyRegistration extends JFrame {
 		
 		
 		
+	}
+	
+	public static void setLookAndFeel(String lf) throws Exception {
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if (lf.equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// If the given lf is not available, you can set the GUI the system
+			// default L&F.
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
 	}
 }
