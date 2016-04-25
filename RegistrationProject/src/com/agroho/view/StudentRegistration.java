@@ -62,9 +62,9 @@ public class StudentRegistration extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Registration");
+		JLabel lblNewLabel = new JLabel("Student Registration");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(386, 11, 137, 20);
+		lblNewLabel.setBounds(336, 30, 188, 20);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblIdNumber = new JLabel("ID Number: ");
