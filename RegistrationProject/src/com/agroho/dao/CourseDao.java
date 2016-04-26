@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.agroho.model.Course;
+import com.agroho.model.CourseRegistrationData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -118,6 +119,62 @@ public class CourseDao {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+		
+	}
+
+
+	public static List<CourseRegistrationData> getRegisteredCourses() {
+
+		try {
+			connect = CustomDataSource.getConnection();
+		} catch (ClassNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		 try {
+			statement = connect.createStatement();
+			        
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		     
+		      
+		      
+		   ResultSet rs = null;
+		try {
+			rs = statement.executeQuery("SELECT rc.course_id as course_id,c.coursename as coursename, c.credit as credit, f.facultyname facultyname, rc.faculty_id as faculty_id, rc.admin_id as admin_id, rc.classroom as classroom, rc.timetable as timetable, rc.description as description FROM registered_course rc JOIN course c ON (rc.course_id = c.courseid) JOIN faculty f ON (rc.faculty_id=f.facultyid)");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		  
+		
+		List<CourseRegistrationData> courseList = new ArrayList<CourseRegistrationData>();
+			try {
+				while(rs.next()){
+					CourseRegistrationData courseData = new CourseRegistrationData();
+					courseData.setCourseId(rs.getString("course_id"));
+					courseData.setCourseName(rs.getString("coursename"));
+					courseData.setFacultyId(rs.getString("faculty_id"));
+					courseData.setFacultyName(rs.getString("facultyname"));
+					courseData.setClassRoom(rs.getString("classroom"));
+					courseData.setCourseTimetable(rs.getString("timetable"));
+					courseData.setCourseDescription(rs.getString("description"));
+					courseData.setCourseCredit(rs.getDouble("credit"));
+					System.out.println(rs.getDouble("credit")+" "+rs.getString("facultyname"));
+					
+					courseList.add(courseData);
+					//System.out.println(rs.getString("coursename"));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return courseList;
 		
 	}
 	}

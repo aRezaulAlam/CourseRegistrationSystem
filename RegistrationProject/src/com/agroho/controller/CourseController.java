@@ -6,6 +6,7 @@ import java.util.List;
 import com.agroho.dao.CourseDao;
 import com.agroho.model.Course;
 import com.agroho.service.CourseService;
+import com.agroho.model.CourseRegistrationData;
 
 public class CourseController {
 
@@ -27,5 +28,17 @@ public CourseController(){
 			String classroom, String admin) {
 		CourseService.SaveCourse(course,faculty,description,timetable,classroom, admin);
 		
+	}
+
+	public List<CourseRegistrationData> getDataForStudentRegistration() {
+
+
+		List<CourseRegistrationData> dataList = CourseService.getDataForStudentCourseRegistration();
+		
+		for (int i = 0; i < dataList.size(); i++) {
+			System.out.println("Controller: "+dataList.get(i).getFacultyName());
+		}
+		
+		return dataList;
 	}
 }

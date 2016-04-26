@@ -10,6 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import com.agroho.controller.CourseController;
+import com.agroho.model.CourseRegistrationData;
+
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -17,6 +21,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class StudentCourseRegistration extends JFrame {
@@ -26,20 +32,104 @@ public class StudentCourseRegistration extends JFrame {
 
 	    public StudentCourseRegistration() {
 			setBounds(100, 100, 873, 726);
-
-	        Object[] columnNames = {"Course ID", "Course Name", "Faculty", "Credit", "Enroll"};
+			
+			CourseController controller = new CourseController();
+			List<CourseRegistrationData> courseRegistrationData =  controller.getDataForStudentRegistration();
+			
+			for (int i = 0; i < courseRegistrationData.size(); i++) {
+				System.out.println("View: "+courseRegistrationData.get(i).getFacultyName());
+			}
+			
+			//Object[][] RegData;
+				
+			Object[][] RegData = new Object[courseRegistrationData.size()][7];
+			for (int i = 0; i < courseRegistrationData.size(); i++) {
+			    CourseRegistrationData row = courseRegistrationData.get(i);
+			    RegData[i][0] = row.getCourseId();
+			    RegData[i][1] = row.getCourseName();
+			    RegData[i][2] = row.getFacultyName();
+			    RegData[i][3] = row.getCourseCredit();
+			    RegData[i][4] = row.getClassRoom();
+			    RegData[i][5] = row.getCourseTimetable();
+			    RegData[i][6] = false;
+			    
+			    System.out.println(RegData[i][0]+" "+RegData[i][1]+" "+RegData[i][2]+" "+RegData[i][3]+" "+RegData[i][4]+" "+RegData[i][5]+ " "+RegData[i][6]);
+			}
+			
+			
+			/*
+			Object[][] RegData = (Object[][]) courseRegistrationData.toArray();
+			
+			for (Object[] rowData: RegData){
+                for(Object cellData: rowData)
+                {
+                	System.out.println("the indiviual data is" +cellData);
+                }
+            }*/
+			
+			
+			
+	        Object[] columnNames = {"Course ID", "Course Name", "Faculty", "Credit", "Class Room", "TimeTable", "Enroll"};
 	        Object[][] data = {
-	            {"CSE101", "C++", "Morshed Hasan", new Double(80.50), false},
-	            {"CSE201", "Java", "Tom Podi", new Double(80.50), false},
-	            {"CSE205", "Data Structure","Morshed Hasan", new Double(6.25), true},
-	            {"CSE308", "Apple", "Shah Alam", new Double(7.35), true},
-	            {"CSE300", "IBM", "", new Double(80.50), false},
-	            {"CSE405", "MicroSoft", "", new Double(6.25), true},
-	            {"CSE308", "Apple", "Morshed Hasan", new Double(7.35), true},
-	            {"CSE407", "IBM", "", new Double(80.50), false},
-	            {"CSE450", "MicroSoft", "Shah Alam", new Double(6.25), true},
-	            {"CSE433", "Apple", "Nitesh Ahmed", new Double(7.35), true}      };
-	        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+	            {"CSE101", "C++", "Morshed Hasan", new Double(80.50),"Test","Test", false},
+	            {"CSE201", "Java", "Tom Podi", new Double(80.50), "Class Room", "TimeTable",false},
+	            {"CSE205", "Data Structure","Morshed Hasan", new Double(6.25),"Class Room", "TimeTable", true},
+	            {"CSE308", "Apple", "Shah Alam", new Double(7.35),"Class Room", "TimeTable", true},
+	            {"CSE300", "IBM", "", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE405", "MicroSoft", "", new Double(6.25), "Class Room", "TimeTable",true},
+	            {"CSE308", "Apple", "Morshed Hasan", new Double(7.35), "Class Room", "TimeTable",true},
+	            {"CSE407", "IBM", "", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE450", "MicroSoft", "Shah Alam", new Double(6.25), "Class Room", "TimeTable",true},
+	            {"CSE300", "IBM", "", new Double(80.50), "Class Room", "TimeTable",false},
+	            {"CSE405", "MicroSoft", "", new Double(6.25), "Class Room", "TimeTable",true},
+	            {"CSE308", "Apple", "Morshed Hasan", new Double(7.35), "Class Room", "TimeTable",true},
+	            {"CSE101", "C++", "Morshed Hasan", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE201", "Java", "Tom Podi", new Double(80.50), "Class Room", "TimeTable",false},
+	            {"CSE205", "Data Structure","Morshed Hasan", new Double(6.25), "Class Room", "TimeTable",true},
+	            {"CSE308", "Apple", "Shah Alam", new Double(7.35), "Class Room", "TimeTable",true},
+	            {"CSE300", "IBM", "", new Double(80.50), "Class Room", "TimeTable",false},
+	            {"CSE405", "MicroSoft", "", new Double(6.25), "Class Room", "TimeTable",true},
+	            {"CSE308", "Apple", "Morshed Hasan", new Double(7.35),"Class Room", "TimeTable", true},
+	            {"CSE407", "IBM", "", new Double(80.50), "Class Room", "TimeTable",false},
+	            {"CSE450", "MicroSoft", "Shah Alam", new Double(6.25), "Class Room", "TimeTable",true},
+	            {"CSE300", "IBM", "", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE405", "MicroSoft", "", new Double(6.25),"Class Room", "TimeTable", true},
+	            {"CSE308", "Apple", "Morshed Hasan", new Double(7.35),"Class Room", "TimeTable", true},
+	            {"CSE101", "C++", "Morshed Hasan", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE201", "Java", "Tom Podi", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE205", "Data Structure","Morshed Hasan", new Double(6.25),"Class Room", "TimeTable", true},
+	            {"CSE308", "Apple", "Shah Alam", new Double(7.35),"Class Room", "TimeTable", true},
+	            {"CSE300", "IBM", "", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE405", "MicroSoft", "", new Double(6.25),"Class Room", "TimeTable", true},
+	            {"CSE308", "Apple", "Morshed Hasan", new Double(7.35),"Class Room", "TimeTable", true},
+	            {"CSE407", "IBM", "", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE450", "MicroSoft", "Shah Alam", new Double(6.25), "Class Room", "TimeTable",true},
+	            {"CSE300", "IBM", "", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE405", "MicroSoft", "", new Double(6.25),"Class Room", "TimeTable", true},
+	            {"CSE308", "Apple", "Morshed Hasan", new Double(7.35), "Class Room", "TimeTable",true},
+	            {"CSE101", "C++", "Morshed Hasan", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE201", "Java", "Tom Podi", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE205", "Data Structure","Morshed Hasan", new Double(6.25),"Class Room", "TimeTable", true},
+	            {"CSE308", "Apple", "Shah Alam", new Double(7.35),"Class Room", "TimeTable", true},
+	            {"CSE300", "IBM", "", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE405", "MicroSoft", "", new Double(6.25),"Class Room", "TimeTable", true},
+	            {"CSE308", "Apple", "Morshed Hasan", new Double(7.35),"Class Room", "TimeTable", true},
+	            {"CSE407", "IBM", "", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE450", "MicroSoft", "Shah Alam", new Double(6.25),"Class Room", "TimeTable", true},
+	            {"CSE300", "IBM", "", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE405", "MicroSoft", "", new Double(6.25),"Class Room", "TimeTable", true},
+	            {"CSE308", "Apple", "Morshed Hasan", new Double(7.35),"Class Room", "TimeTable", true},
+	            {"CSE407", "IBM", "", new Double(80.50),"Class Room", "TimeTable", false},
+	            {"CSE450", "MicroSoft", "Shah Alam", new Double(6.25),"Class Room", "TimeTable", true},
+	            {"CSE433", "Apple", "Nitesh Ahmed", new Double(7.35),"Class Room", "TimeTable", true}      };
+	        
+	        for (Object[] rowData: data){
+                for(Object cellData: rowData)
+                {
+                	System.out.println("the indiviual data is" +cellData);
+                }
+            }
+	        DefaultTableModel model = new DefaultTableModel(RegData, columnNames);
 	        getContentPane().setLayout(null);
 	        table = new JTable(model) {
 
@@ -60,6 +150,10 @@ public class StudentCourseRegistration extends JFrame {
 	                        return String.class;
 	                    case 3:
 	                        return Double.class;
+	                    case 4:
+	                        return String.class;
+	                    case 5:
+	                        return String.class;
 	                    default:
 	                        return Boolean.class;
 	                }
@@ -77,7 +171,7 @@ public class StudentCourseRegistration extends JFrame {
 	        	public void actionPerformed(ActionEvent e) {
 	        		
 	        		for (int i = 0; i < table.getRowCount(); i++) {
-						Boolean checked = Boolean.valueOf(table.getValueAt(i, 4).toString());
+						Boolean checked = Boolean.valueOf(table.getValueAt(i, 6).toString());
 						String col = table.getValueAt(i, 0).toString();
 						
 						if (checked) {
@@ -91,7 +185,12 @@ public class StudentCourseRegistration extends JFrame {
 	        getContentPane().add(btnCompleteRegistration);
 	    }
 
-	    public static void main(String[] args) {
+	    private void getDataForStudentRegistration() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public static void main(String[] args) {
 	        SwingUtilities.invokeLater(new Runnable() {
 
 	            @Override

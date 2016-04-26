@@ -1,8 +1,11 @@
 package com.agroho.service;
 
+import java.util.List;
 import java.util.StringTokenizer;
 
 import com.agroho.dao.CourseDao;
+import com.agroho.model.Course;
+import com.agroho.model.CourseRegistrationData;
 
 public class CourseService {
 
@@ -33,6 +36,18 @@ public class CourseService {
 		
 		CourseDao.saveCourse(courseCode,facultyCode,description,timetable,classroom, admin);
 		
+	}
+
+	public static List<CourseRegistrationData> getDataForStudentCourseRegistration() {
+		
+		List<CourseRegistrationData> data = CourseDao.getRegisteredCourses();
+		
+		
+		for (int i = 0; i < data.size(); i++) {
+			System.out.println("Service: "+data.get(i).getFacultyName());
+		}
+		
+		return data;
 	}
 
 }
