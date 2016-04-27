@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.agroho.model.Course;
 import com.agroho.model.CourseRegistrationData;
-import com.agroho.model.StudentRegistrationCourses;
+import com.agroho.model.StudentEnrollment;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -176,12 +176,19 @@ public class CourseDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			try {
+				CustomDataSource.closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return courseList;
 		
 	}
 
 
-	public static void saveStudentCourseRegistration(List<StudentRegistrationCourses> studentCourseRegistrations) {
+	public static void saveStudentCourseRegistration(List<StudentEnrollment> studentCourseRegistrations) {
 
 		try {
 			connect = CustomDataSource.getConnection();
@@ -233,6 +240,81 @@ public class CourseDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+
+
+	public static List<StudentEnrollment> getStudentEnrollmentDetailsById(String userId) {
+		try {
+			connect = CustomDataSource.getConnection();
+		} catch (ClassNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		 try {
+			statement = connect.createStatement();
+			        
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		     
+		      
+		      
+		   ResultSet rs = null;
+		try {
+			//SELECT scr.`registered_course_id`, rc.course_id, fc.facultyname , rc.classroom, rc.timetable , scr.`permitted` FROM `student_course_registration` scr JOIN registered_course rc ON (scr.`registered_course_id` = rc.id) JOIN faculty fc ON (rc.faculty_id=fc.facultyid) WHERE scr.studentid='12201051' 
+
+			rs = statement.executeQuery("SELECT scr.id, scr.`registered_course_id`, rc.course_id, c.credit, fc.facultyname , rc.classroom, rc.timetable , scr.`permitted` FROM `student_course_registration` scr JOIN registered_course rc ON (scr.`registered_course_id` = rc.id) JOIN faculty fc ON (rc.faculty_id=fc.facultyid) JOIN course c ON (c.courseid=rc.course_id) WHERE scr.studentid='"+userId+"'");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		  
+		
+		List<StudentEnrollment> studentEnrollments = new ArrayList<StudentEnrollment>();
+			try {
+				while(rs.next()){
+					StudentEnrollment enrollment = new StudentEnrollment();
+					enrollment.setCourseId(rs.getString("course_id"));
+					enrollment.setFacultyName(rs.getString("facultyname"));
+					enrollment.setRegistered_course_id(rs.getInt("registered_course_id"));
+					enrollment.setRoom(rs.getString("classroom"));
+					enrollment.setCourseCredit(rs.getDouble("credit"));
+					enrollment.setTime(rs.getString("timetable"));
+					enrollment.setId(rs.getInt("id"));
+					int checkAccepted = rs.getInt("permitted");
+					
+					if (checkAccepted==0) {
+						enrollment.setAcceptedStatus("PENDING");
+					} else if (checkAccepted==1) {
+						enrollment.setAcceptedStatus("ACCEPTED");
+					} else {
+						enrollment.setAcceptedStatus("REJECTED");
+
+					}
+					System.out.println("DAO ENroll: "+rs.getString("timetable"));
+					System.out.println(rs.getString("facultyname"));
+					System.out.println(rs.getString("course_id"));
+
+					studentEnrollments.add(enrollment);
+					//System.out.println(rs.getString("coursename"));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				CustomDataSource.closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return studentEnrollments;
 		
 	}
 	}

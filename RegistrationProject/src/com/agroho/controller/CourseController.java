@@ -7,7 +7,7 @@ import com.agroho.dao.CourseDao;
 import com.agroho.model.Course;
 import com.agroho.service.CourseService;
 import com.agroho.model.CourseRegistrationData;
-import com.agroho.model.StudentRegistrationCourses;
+import com.agroho.model.StudentEnrollment;
 
 public class CourseController {
 
@@ -43,7 +43,7 @@ public CourseController(){
 		return dataList;
 	}
 
-	public void saveStudentCourseRegistration(List<StudentRegistrationCourses> studentCourseRegistrations) {
+	public void saveStudentCourseRegistration(List<StudentEnrollment> studentCourseRegistrations) {
 		
 		for (int i = 0; i < studentCourseRegistrations.size(); i++) {
 			System.out.println("Controller Student Course registration Rezaul: "+studentCourseRegistrations.get(i).getPermitter());
@@ -52,5 +52,10 @@ public CourseController(){
 		
 		CourseDao.saveStudentCourseRegistration(studentCourseRegistrations);
 		
+	}
+
+	public List<StudentEnrollment> getStudentEnrollInfoById(String userId) {
+		List<StudentEnrollment> enrollmentInfo = CourseService.getStudentEnrollInfoById(userId);
+		return enrollmentInfo;
 	}
 }

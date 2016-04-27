@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.agroho.controller.CourseController;
 import com.agroho.model.CourseRegistrationData;
-import com.agroho.model.StudentRegistrationCourses;
+import com.agroho.model.StudentEnrollment;
 
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
@@ -26,13 +26,14 @@ import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
 public class StudentCourseRegistration extends JFrame {
 
 	 private static final long serialVersionUID = 1L;
 	    private JTable table;
 
-	    public StudentCourseRegistration() {
+	    public StudentCourseRegistration(String userId) {
 			setBounds(100, 100, 873, 726);
 			
 			CourseController controller = new CourseController();
@@ -70,7 +71,12 @@ public class StudentCourseRegistration extends JFrame {
                 }
             }*/
 			
-			
+			 Object[][] data = {
+			            {"Buy", "IBM", new Integer(1000), new Double(80.50), false},
+			            {"Sell", "MicroSoft", new Integer(2000), new Double(6.25), true},
+			            {"Sell", "Apple", new Integer(3000), new Double(7.35), true},
+			            {"Buy", "Nortel", new Integer(4000), new Double(20.00), false}
+			        };
 			
 	        Object[] columnNames = {"ID","Course ID", "Course Name", "Faculty", "Credit", "Class Room", "TimeTable", "Enroll"};
 	   
@@ -115,36 +121,57 @@ public class StudentCourseRegistration extends JFrame {
 	        table.setFont(new Font("Tahoma", Font.PLAIN, 15));
 	      
 	        JScrollPane scrollPane = new JScrollPane(table);
-	        scrollPane.setBounds(31, 29, 796, 606);
+	      //  table.setBounds(31, 29, 796, 606);
+	        scrollPane.setBounds(31, 57, 796, 578);
 	        getContentPane().add(scrollPane);
 	        
 	        JButton btnCompleteRegistration = new JButton("Complete Registration");
 	        btnCompleteRegistration.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent e) {
-	        		List<StudentRegistrationCourses> studentCourseRegistrations = new ArrayList<StudentRegistrationCourses>();
+	        		List<StudentEnrollment> studentCourseRegistrations = new ArrayList<StudentEnrollment>();
 	        		for (int i = 0; i < table.getRowCount(); i++) {
 	        			
-	        			StudentRegistrationCourses studentRegistrationCourses = new StudentRegistrationCourses();
+	        			StudentEnrollment studentRegistrationCourses = new StudentEnrollment();
 						Boolean checked = Boolean.valueOf(table.getValueAt(i, 7).toString());
 						String col = table.getValueAt(i, 0).toString();
 						
 						studentRegistrationCourses.setRegistered_course_id(Integer.parseInt(table.getValueAt(i, 0).toString()));
-						studentRegistrationCourses.setStudentId("12201051");
+						studentRegistrationCourses.setStudentId(userId);
 						studentRegistrationCourses.setPermitter(Boolean.valueOf(table.getValueAt(i, 7).toString()));
 						
 						if (studentRegistrationCourses.getPermitter()) {
-							JOptionPane.showMessageDialog(null, col);
+							
 							studentCourseRegistrations.add(studentRegistrationCourses);
 						}
 					}
 	        		
 	        		controller.saveStudentCourseRegistration(studentCourseRegistrations);
+	        		JOptionPane.showMessageDialog(null, "Course Registration Successful");
+	        		setVisible(false);
+	        		new StudentHome(userId).setVisible(true);
 	        		
 	        	}
 	        });
 	        btnCompleteRegistration.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	        btnCompleteRegistration.setBounds(636, 646, 191, 30);
 	        getContentPane().add(btnCompleteRegistration);
+	        
+	        JLabel lblStudentCourseEnrollment = new JLabel("Student Course Enrollment");
+	        lblStudentCourseEnrollment.setFont(new Font("Tahoma", Font.BOLD, 15));
+	        lblStudentCourseEnrollment.setBounds(353, 11, 209, 35);
+	        getContentPane().add(lblStudentCourseEnrollment);
+	        
+	        JButton btnBack = new JButton("Back");
+	        btnBack.addActionListener(new ActionListener() {
+	        	public void actionPerformed(ActionEvent e) {
+	        		
+	        		setVisible(false);
+	        		new StudentHome(userId).setVisible(true);;
+	        	}
+	        });
+	        btnBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
+	        btnBack.setBounds(418, 646, 191, 30);
+	        getContentPane().add(btnBack);
 	    }
 
 	    private void getDataForStudentRegistration() {
@@ -163,7 +190,7 @@ public class StudentCourseRegistration extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-	            	StudentCourseRegistration frame = new StudentCourseRegistration();
+	            	StudentCourseRegistration frame = new StudentCourseRegistration("");
 	                frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	                //frame.pack();
 	                frame.setLocation(150, 150);

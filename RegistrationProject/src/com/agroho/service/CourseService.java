@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 import com.agroho.dao.CourseDao;
 import com.agroho.model.Course;
 import com.agroho.model.CourseRegistrationData;
+import com.agroho.model.StudentEnrollment;
 
 public class CourseService {
 
@@ -48,6 +49,13 @@ public class CourseService {
 		}
 		
 		return data;
+	}
+
+	public static List<StudentEnrollment> getStudentEnrollInfoById(String userId) {
+		
+		List<StudentEnrollment> studentEnrollments = CourseDao.getStudentEnrollmentDetailsById(userId);
+		//SELECT scr.`registered_course_id`, rc.course_id, fc.facultyname , rc.classroom, rc.timetable , scr.`permitted` FROM `student_course_registration` scr JOIN registered_course rc ON (scr.`registered_course_id` = rc.id) JOIN faculty fc ON (rc.faculty_id=fc.facultyid) WHERE scr.studentid='12201051' 
+		return studentEnrollments;
 	}
 
 }
