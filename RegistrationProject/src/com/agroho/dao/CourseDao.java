@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.agroho.model.Course;
 import com.agroho.model.CourseRegistrationData;
+import com.agroho.model.StudentRegistrationCourses;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -146,7 +147,7 @@ public class CourseDao {
 		      
 		   ResultSet rs = null;
 		try {
-			rs = statement.executeQuery("SELECT rc.course_id as course_id,c.coursename as coursename, c.credit as credit, f.facultyname facultyname, rc.faculty_id as faculty_id, rc.admin_id as admin_id, rc.classroom as classroom, rc.timetable as timetable, rc.description as description FROM registered_course rc JOIN course c ON (rc.course_id = c.courseid) JOIN faculty f ON (rc.faculty_id=f.facultyid)");
+			rs = statement.executeQuery("SELECT rc.id as id, rc.course_id as course_id,c.coursename as coursename, c.credit as credit, f.facultyname facultyname, rc.faculty_id as faculty_id, rc.admin_id as admin_id, rc.classroom as classroom, rc.timetable as timetable, rc.description as description FROM registered_course rc JOIN course c ON (rc.course_id = c.courseid) JOIN faculty f ON (rc.faculty_id=f.facultyid)");
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -157,6 +158,7 @@ public class CourseDao {
 			try {
 				while(rs.next()){
 					CourseRegistrationData courseData = new CourseRegistrationData();
+					courseData.setId(rs.getString("id"));
 					courseData.setCourseId(rs.getString("course_id"));
 					courseData.setCourseName(rs.getString("coursename"));
 					courseData.setFacultyId(rs.getString("faculty_id"));
@@ -175,6 +177,62 @@ public class CourseDao {
 				e.printStackTrace();
 			}
 			return courseList;
+		
+	}
+
+
+	public static void saveStudentCourseRegistration(List<StudentRegistrationCourses> studentCourseRegistrations) {
+
+		try {
+			connect = CustomDataSource.getConnection();
+		} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (int i = 0; i < studentCourseRegistrations.size(); i++) {
+			System.out.println(studentCourseRegistrations.get(i));
+			 try {
+					preparedStatement = connect
+					          .prepareStatement("INSERT INTO `student_course_registration`(`registered_course_id`, `studentid`, `permitted`) VALUES ( ?, ?, ?)");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				      // "myuser, webpage, datum, summary, COMMENTS from feedback.comments");
+				      // Parameters start with 1
+
+				      try {
+						preparedStatement.setInt(1, studentCourseRegistrations.get(i).getRegistered_course_id());
+						preparedStatement.setString(2, studentCourseRegistrations.get(i).getStudentId());
+						
+						
+							preparedStatement.setInt(3, 0);
+						
+					   
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				      
+				      
+				      try {
+					      int rows = preparedStatement.executeUpdate();
+					      System.out.println(rows);
+					      //System.out.println("DAO Name: "+faculty.getName());
+
+					} catch (Exception e) {
+						System.out.println("Error in DB "+e.getMessage());			
+						}
+		}
+      
+		      
+		   //   System.out.println(rows+ " rows are effected");
+		try {
+			CustomDataSource.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	}

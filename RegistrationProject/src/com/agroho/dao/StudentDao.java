@@ -116,4 +116,84 @@ public class StudentDao {
 		
 	}
 
+	public static Student getStudentDetailsByID(String userId) {
+		int flag = 0;
+		try {
+			connect = CustomDataSource.getConnection();
+		} catch (ClassNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		 try {
+			statement = connect.createStatement();
+			         // .prepareStatement("select studentid, password from student");
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		      // "myuser, webpage, datum, summary, COMMENTS from feedback.comments");
+		      // Parameters start with 1
+
+		      
+		      
+		   ResultSet rs = null;
+		try {
+			rs = statement.executeQuery("select * from student where studentid='"+userId+"'");
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		      
+		   //   System.out.println(rows+ " rows are effected");
+		   
+			String studentId = "";
+			String password = "";
+			String name = "";
+			String major = "";
+			String mobile = "";
+		
+		try {
+			while(rs.next()){
+				 studentId = rs.getString("studentid");
+				 password = rs.getString("password");
+				 name = rs.getString("name");
+				 major = rs.getString("major");
+				 mobile = rs.getString("mobile");
+				
+				
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		try {
+			CustomDataSource.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			CustomDataSource.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Student student = new Student();
+		student.setStudentId(userId);
+		student.setName(name);
+		student.setMajor(major);
+		student.setMobile(mobile);
+		student.setPassword(password);
+		
+		
+		return student;
+	}
+
 }

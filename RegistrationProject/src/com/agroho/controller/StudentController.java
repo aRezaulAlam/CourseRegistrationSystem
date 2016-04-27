@@ -26,4 +26,13 @@ public class StudentController {
 		
 		
 	}
+
+	public Student getStudentDetailsById(String userId) {
+		
+		Student student = StudentDao.getStudentDetailsByID(userId);
+		
+		return student;
+		
+		
+	}
 }

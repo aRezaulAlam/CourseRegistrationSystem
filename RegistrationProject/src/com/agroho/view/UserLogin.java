@@ -133,6 +133,15 @@ public class UserLogin {
 						
 						if (userType.equals("Student")) {
 						loginChecked = controller.studentLogin(userId, password);
+						
+						if (loginChecked==true) {
+							 JOptionPane.showMessageDialog(null, "Login success");
+							 frame.setVisible(false);
+							 new StudentHome(userId).setVisible(true);
+						} else {
+							JOptionPane.showMessageDialog(null, "Login failed");
+						}
+					
 						} else if (userType.equals("Faculty")) {
 							loginChecked = controller.facultyLogin(userId, password);
 							System.out.println("Faculty");
@@ -140,11 +149,11 @@ public class UserLogin {
 							loginChecked = controller.adminLogin(userId, password);
 							System.out.println("Admin");
 						}
-						if (loginChecked==true) {
+					/*	if (loginChecked==true) {
 							 JOptionPane.showMessageDialog(null, "Login success");
 						} else {
 							JOptionPane.showMessageDialog(null, "Login failed");
-						}
+						}*/
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
