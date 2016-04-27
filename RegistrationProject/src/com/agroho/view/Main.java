@@ -124,19 +124,18 @@ public class Main extends JFrame {
 					try {
 						
 						if (userType.equals("Student")) {
-						loginChecked = controller.studentLogin(userId, password);
-						
+						loginChecked = controller.studentLogin(userId, password);			
 						if (loginChecked==true) {
-							 JOptionPane.showMessageDialog(null, "Login success");
-							 setVisible(false);
-							 new StudentHome(userId).setVisible(true);
+							setVisible(false);
+							new TestProgress(userId,userType);
+
 						} else {
 							JOptionPane.showMessageDialog(null, "Login failed");
 						}
 					
 						} else if (userType.equals("Faculty")) {
 							loginChecked = controller.facultyLogin(userId, password);
-							System.out.println("Faculty");
+							new TestProgress(userId,userType);
 						} else if(userType.equals("Admin")){
 							loginChecked = controller.adminLogin(userId, password);
 							System.out.println("Admin");

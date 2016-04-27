@@ -58,4 +58,11 @@ public CourseController(){
 		List<StudentEnrollment> enrollmentInfo = CourseService.getStudentEnrollInfoById(userId);
 		return enrollmentInfo;
 	}
+
+	public List<StudentEnrollment> getStudentListForEnrollmentByFacultyId(String facultyId) {
+
+		List<StudentEnrollment> enrollments = CourseDao.getStudentListForEnrollmentByFacultyId(facultyId);
+			
+		return enrollments;
+	}
 }

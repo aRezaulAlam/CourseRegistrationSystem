@@ -12,6 +12,7 @@ import com.agroho.dao.StudentDao;
 import com.agroho.model.Course;
 import com.agroho.model.Faculty;
 import com.agroho.model.Student;
+import com.agroho.model.StudentEnrollment;
 
 public class FacultyController {
 	
@@ -58,6 +59,17 @@ Faculty faculty;
 
 
 		
+		
+	}
+
+	public Faculty getFacultyDetailsById(String facultyId) {
+		Faculty faculty = FacultyDao.getFacultyDetailsById(facultyId);
+		
+		return faculty;
+	}
+
+	public void updateStudentEnrollmentbyFaculty(List<StudentEnrollment> studentCourseRegistrations) {
+		// TODO Auto-generated method stub
 		
 	}
 

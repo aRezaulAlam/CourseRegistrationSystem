@@ -28,6 +28,17 @@ public class StudentEnrollment {
 
 	private String studentId;
 	
+	private String StudentName;
+	
+		
+	public String getStudentName() {
+		return StudentName;
+	}
+
+	public void setStudentName(String studentName) {
+		StudentName = studentName;
+	}
+
 	private Boolean permitter;
 	
 	private String acceptedStatus;

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.3.11
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2016 at 07:16 PM
--- Server version: 5.6.24
--- PHP Version: 5.6.8
+-- Generation Time: Apr 27, 2016 at 07:47 AM
+-- Server version: 10.1.10-MariaDB
+-- PHP Version: 5.6.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `registration`
@@ -26,13 +26,13 @@ SET time_zone = "+00:00";
 -- Table structure for table `admin`
 --
 
-CREATE TABLE IF NOT EXISTS `admin` (
+CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `adminname` varchar(255) NOT NULL,
   `adminid` varchar(255) NOT NULL,
   `adminpassword` varchar(255) NOT NULL,
   `adminrole` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin`
@@ -47,12 +47,12 @@ INSERT INTO `admin` (`id`, `adminname`, `adminid`, `adminpassword`, `adminrole`)
 -- Table structure for table `course`
 --
 
-CREATE TABLE IF NOT EXISTS `course` (
+CREATE TABLE `course` (
   `id` int(11) NOT NULL,
   `courseid` varchar(255) NOT NULL,
   `coursename` varchar(255) NOT NULL,
   `credit` double NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `course`
@@ -76,12 +76,12 @@ INSERT INTO `course` (`id`, `courseid`, `coursename`, `credit`) VALUES
 -- Table structure for table `faculty`
 --
 
-CREATE TABLE IF NOT EXISTS `faculty` (
+CREATE TABLE `faculty` (
   `id` int(11) NOT NULL,
   `facultyid` varchar(255) NOT NULL,
   `facultyname` varchar(255) NOT NULL,
   `facultypassword` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `faculty`
@@ -94,7 +94,8 @@ INSERT INTO `faculty` (`id`, `facultyid`, `facultyname`, `facultypassword`) VALU
 (4, '010101', 'Nitesh Ahmed', '010101'),
 (5, '195858', 'Shah Alam', '195858'),
 (6, '101010', 'Alamgit Hyder', '101010'),
-(7, '123456', 'Rana Ahmad', '123456');
+(7, '123456', 'Rana Ahmad', '123456'),
+(8, '12346', 'Pankaj Sharma', '12346');
 
 -- --------------------------------------------------------
 
@@ -102,11 +103,11 @@ INSERT INTO `faculty` (`id`, `facultyid`, `facultyname`, `facultypassword`) VALU
 -- Table structure for table `faculty_skills`
 --
 
-CREATE TABLE IF NOT EXISTS `faculty_skills` (
+CREATE TABLE `faculty_skills` (
   `id` int(11) NOT NULL,
   `facultyid` varchar(255) NOT NULL,
   `courseid` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `faculty_skills`
@@ -148,7 +149,10 @@ INSERT INTO `faculty_skills` (`id`, `facultyid`, `courseid`) VALUES
 (33, '123456', 'CSE308'),
 (34, '123456', 'MTH302'),
 (35, '123456', 'CSE300'),
-(36, '123456', 'CSE433');
+(36, '123456', 'CSE433'),
+(37, '12346', 'CSE201'),
+(38, '12346', 'CSE300'),
+(39, '12346', 'CSE405');
 
 -- --------------------------------------------------------
 
@@ -156,7 +160,7 @@ INSERT INTO `faculty_skills` (`id`, `facultyid`, `courseid`) VALUES
 -- Table structure for table `registered_course`
 --
 
-CREATE TABLE IF NOT EXISTS `registered_course` (
+CREATE TABLE `registered_course` (
   `id` int(11) NOT NULL,
   `course_id` varchar(255) NOT NULL,
   `faculty_id` varchar(255) NOT NULL,
@@ -164,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `registered_course` (
   `classroom` varchar(255) NOT NULL,
   `timetable` varchar(255) NOT NULL,
   `description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `registered_course`
@@ -178,7 +182,8 @@ INSERT INTO `registered_course` (`id`, `course_id`, `faculty_id`, `admin_id`, `c
 (5, 'MTH302', '20878', 'Central', 'E302', 'Saturday  9-11 AM', ' Basic Course for 3nd Year 2st Semester'),
 (6, 'CSE433', '123456', 'Central', 'C100', 'Saturday  1-3 AM', 'Software Development using Python'),
 (7, 'CSE450', '010101', 'Central', 'C100', 'Monday  1-3 PM', 'Design Pattern'),
-(8, 'CSE405', '66666', 'Central', 'C100', 'Tuesday  1-3 PM', 'Software Engineering');
+(8, 'CSE405', '66666', 'Central', 'C100', 'Tuesday  1-3 PM', 'Software Engineering'),
+(9, 'CSE201', '12346', 'Central', 'D400', '8-11 AM', 'Java Core Course');
 
 -- --------------------------------------------------------
 
@@ -186,14 +191,14 @@ INSERT INTO `registered_course` (`id`, `course_id`, `faculty_id`, `admin_id`, `c
 -- Table structure for table `student`
 --
 
-CREATE TABLE IF NOT EXISTS `student` (
+CREATE TABLE `student` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `studentid` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `major` varchar(25) NOT NULL,
   `mobile` varchar(25) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `student`
@@ -210,12 +215,25 @@ INSERT INTO `student` (`id`, `name`, `studentid`, `password`, `major`, `mobile`)
 -- Table structure for table `student_course_registration`
 --
 
-CREATE TABLE IF NOT EXISTS `student_course_registration` (
+CREATE TABLE `student_course_registration` (
   `id` int(11) NOT NULL,
-  `course_id` varchar(255) NOT NULL,
+  `registered_course_id` int(255) NOT NULL,
   `studentid` varchar(255) NOT NULL,
   `permitted` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student_course_registration`
+--
+
+INSERT INTO `student_course_registration` (`id`, `registered_course_id`, `studentid`, `permitted`) VALUES
+(16, 1, '12201011', 0),
+(17, 4, '12201011', 0),
+(18, 6, '12201011', 0),
+(19, 9, '12201051', 0),
+(20, 8, '12201051', 0),
+(21, 4, '12201051', 0),
+(22, 9, '12201051', 0);
 
 --
 -- Indexes for dumped tables
@@ -271,37 +289,37 @@ ALTER TABLE `student_course_registration`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `faculty`
 --
 ALTER TABLE `faculty`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `faculty_skills`
 --
 ALTER TABLE `faculty_skills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `registered_course`
 --
 ALTER TABLE `registered_course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `student_course_registration`
 --
 ALTER TABLE `student_course_registration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

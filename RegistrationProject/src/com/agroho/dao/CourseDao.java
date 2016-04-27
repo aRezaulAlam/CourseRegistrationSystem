@@ -317,4 +317,76 @@ public class CourseDao {
 			return studentEnrollments;
 		
 	}
+
+
+	public static List<StudentEnrollment> getStudentListForEnrollmentByFacultyId(String facultyId) {
+		try {
+			connect = CustomDataSource.getConnection();
+		} catch (ClassNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		 try {
+			statement = connect.createStatement();
+			        
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		     
+		      
+		      
+		   ResultSet rs = null;
+		try {
+			//SELECT scr.`registered_course_id`, rc.course_id, fc.facultyname , rc.classroom, rc.timetable , scr.`permitted` FROM `student_course_registration` scr JOIN registered_course rc ON (scr.`registered_course_id` = rc.id) JOIN faculty fc ON (rc.faculty_id=fc.facultyid) WHERE scr.studentid='12201051' 
+
+			rs = statement.executeQuery("SELECT scr.`id`, scr.`registered_course_id`, rc.course_id , scr.`studentid`, s.name, scr.`permitted` FROM `student_course_registration` scr JOIN student s ON (scr.`studentid`=s.studentid) JOIN registered_course rc ON (scr.`registered_course_id`=rc.id) WHERE rc.faculty_id='"+facultyId+"'");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		  
+		
+		List<StudentEnrollment> studentEnrollments = new ArrayList<StudentEnrollment>();
+			try {
+				while(rs.next()){
+					StudentEnrollment enrollment = new StudentEnrollment();
+					
+					int checkAccepted = rs.getInt("permitted");
+					
+					if (checkAccepted==0) {
+						enrollment.setPermitter(false);
+						enrollment.setCourseId(rs.getString("course_id"));
+						enrollment.setRegistered_course_id(rs.getInt("registered_course_id"));
+						enrollment.setStudentId(rs.getString("studentid"));
+						enrollment.setStudentName(rs.getString("name"));
+						enrollment.setId(rs.getInt("id"));
+						studentEnrollments.add(enrollment);
+
+					} else if (checkAccepted==1) {
+						enrollment.setAcceptedStatus("ACCEPTED");
+					} else {
+						enrollment.setAcceptedStatus("REJECTED");
+
+					}
+					
+					//System.out.println(rs.getString("coursename"));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				CustomDataSource.closeConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return studentEnrollments;
+		
+	}
 	}

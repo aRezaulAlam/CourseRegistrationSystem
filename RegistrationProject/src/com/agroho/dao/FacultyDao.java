@@ -259,6 +259,81 @@ public class FacultyDao {
 		return facultyList;
 	}
 
+	public static Faculty getFacultyDetailsById(String facultyId) {
+		int flag = 0;
+		try {
+			connect = CustomDataSource.getConnection();
+		} catch (ClassNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		 try {
+			statement = connect.createStatement();
+			         // .prepareStatement("select studentid, password from student");
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		      // "myuser, webpage, datum, summary, COMMENTS from feedback.comments");
+		      // Parameters start with 1
+
+		      
+		      
+		   ResultSet rs = null;
+		try {
+			rs = statement.executeQuery("select * from faculty where facultyid='"+facultyId+"'");
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		      
+		   //   System.out.println(rows+ " rows are effected");
+		   
+			String facultyID = "";
+			String password = "";
+			String name = "";
+			
+		
+		try {
+			while(rs.next()){
+				facultyID = rs.getString("facultyid");
+				 password = rs.getString("facultypassword");
+				 name = rs.getString("facultyname");
+				 
+				
+				
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		try {
+			CustomDataSource.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			CustomDataSource.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Faculty faculty = new Faculty();
+		faculty.setFacultyId(facultyID);
+		faculty.setFacultyPassword(password);
+		faculty.setName(name);
+		
+		return faculty;
+	}
+
 	
 
 }
