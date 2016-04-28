@@ -69,7 +69,8 @@ Faculty faculty;
 	}
 
 	public void updateStudentEnrollmentbyFaculty(List<StudentEnrollment> studentCourseRegistrations) {
-		// TODO Auto-generated method stub
+
+		CourseDao.updateStudentEnrollmentbyFaculty(studentCourseRegistrations);
 		
 	}
 

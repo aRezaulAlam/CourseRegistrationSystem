@@ -389,4 +389,60 @@ public class CourseDao {
 			return studentEnrollments;
 		
 	}
+
+
+	public static void updateStudentEnrollmentbyFaculty(List<StudentEnrollment> studentCourseRegistrations) {
+		try {
+			connect = CustomDataSource.getConnection();
+		} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (int i = 0; i < studentCourseRegistrations.size(); i++) {
+			System.out.println(studentCourseRegistrations.get(i));
+			 try {
+					preparedStatement = connect
+					          .prepareStatement("UPDATE `student_course_registration` SET `permitted`=1 WHERE `registered_course_id`='"+studentCourseRegistrations.get(i).getRegistered_course_id()+"' AND `studentid`='"+studentCourseRegistrations.get(i).getStudentId()+"'");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				      // "myuser, webpage, datum, summary, COMMENTS from feedback.comments");
+				      // Parameters start with 1
+
+				/*      try {
+						preparedStatement.setInt(1, studentCourseRegistrations.get(i).getRegistered_course_id());
+						preparedStatement.setString(2, studentCourseRegistrations.get(i).getStudentId());
+						
+						
+							preparedStatement.setInt(3,1);
+						
+					   
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}*/
+				      
+				      
+				      try {
+					      int rows = preparedStatement.executeUpdate();
+					      System.out.println(rows);
+					      //System.out.println("DAO Name: "+faculty.getName());
+
+					} catch (Exception e) {
+						System.out.println("Error in DB "+e.getMessage());			
+						}
+		}
+      
+		      
+		   //   System.out.println(rows+ " rows are effected");
+		try {
+			CustomDataSource.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 	}
